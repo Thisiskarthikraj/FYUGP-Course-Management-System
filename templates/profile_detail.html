@@ -1,0 +1,51 @@
+{% extends "sbase.html" %}
+
+
+{% block content %}
+{% if messages %}
+    <div>
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    </div>
+{% endif %}
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header text-center">
+            {% load static %}
+            {% if student_profile.profile_picture %}
+                <img src="{{ student_profile.profile_picture.url }}" class="rounded-circle" alt="Profile Picture" width="150" height="150">
+            {% else %}
+                <img src="{% static 'images/admin.webp' %}" class="rounded-circle" alt="Profile Picture" width="150" height="150">
+            {% endif %}
+        </div>
+        <div class="card-body">
+            <h3 class="card-title text-center">{{ student_profile.user.username }}</h3>
+            <p class="card-text"><strong>Name:</strong> {{ student_profile.first_name  }} {{student_profile.last_name}}</p>
+            <p class="card-text"><strong>Date of Birth:</strong> {{ student_profile.dob }}</p>
+            <p class="card-text"><strong>Phone No:</strong> {{ student_profile.phone_number }}</p>
+            <p class="card-text"><strong>Address:</strong> {{ student_profile.address }}</p>
+            <p class="card-text"><strong>Programme:</strong> {{ student_profile.programme.name }}</p>
+            <p class="card-text"><strong>Department:</strong> {{ student_profile.department.name }}</p>
+            <p class="card-text"><strong>Semester:</strong> {{ student_profile.semester }}</p>
+
+            <div class="mt-4">
+                <h5 class="text-center">Plus Two Details</h5>
+                <div class="border p-3 rounded">
+                    <p class="card-text"><strong>Board:</strong> {{ student_profile.board }}</p>
+                    <p class="card-text"><strong>Subjects:</strong>
+                        {% for subject in student_profile.subjects.all %}
+                            <span class="badge bg-primary me-1">{{ subject.name }}</span>
+                        {% empty %}
+                            No subjects selected.
+                        {% endfor %}
+                    </p>
+                </div>
+            </div>
+            <div class="text-center">
+                <a href="{% url 'profile_edit' %}" class="btn btn-warning">Edit</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Pending Enrollment Approvals</h2>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Student</th>
+            <th>Course</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for enrollment in pending_enrollments %}
+            <tr>
+                <td>{{ enrollment.student.user.username }}</td>
+                <td>{{ enrollment.course.name }}</td>
+                <td><a href="{% url 'admin_approve_enrollment' enrollment.id %}" class="btn btn-success">Approve Enrollment</a></td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="3">No pending enrollment approvals.</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

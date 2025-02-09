@@ -1,0 +1,40 @@
+{% extends 'abase.html' %}
+
+{% block content %}
+<h2>Pending Profile Registrations</h2>
+{% if messages %}
+    <div>
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    </div>
+{% endif %}
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Username</th>
+            <th>Programme</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% if pending_profiles %}
+            {% for profile in pending_profiles %}
+                <tr>
+                    <td>{{ profile.user.username }}</td>
+                    <td>{{ profile.programme.name }}</td>
+                    <td>
+                        <a href="{% url 'admin_approve_profile' profile.id %}" class="btn btn-success">Approve</a>
+                        <a href="{% url 'admin_reject_profile' profile.id %}" class="btn btn-danger">Reject</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        {% else %}
+            <tr>
+                <td colspan="3">No pending profile registrations.</td>
+            </tr>
+        {% endif %}
+    </tbody>
+</table>
+{% endblock %}

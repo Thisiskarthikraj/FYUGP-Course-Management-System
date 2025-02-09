@@ -1,0 +1,68 @@
+
+    /* Basic styling for form and table */
+    form {
+        margin-bottom: 20px;
+        padding: 10px;
+        background-color: #f9f9f9;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+    }
+
+    form div {
+        margin-bottom: 15px;
+    }
+
+    label {
+        display: inline-block;
+        width: 150px;
+        font-weight: bold;
+    }
+
+    select,#btn1{
+        padding: 8px;
+        font-size: 14px;
+        width: 100%;
+        max-width: 300px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    #btn1 {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        background-color: #fff;
+    }
+
+    th, td {
+        padding: 10px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    th {
+        background-color: #007bff;
+        color: white;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    .no-courses {
+        text-align: center;
+        color: #ff0000;
+        font-weight: bold;
+    }

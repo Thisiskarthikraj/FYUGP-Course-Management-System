@@ -1,0 +1,27 @@
+{% extends 'abase.html' %}
+
+{% block content %}
+<h2>Pending Profile Edit Requests</h2>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Username</th>
+            <th>Programme</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for profile in pending_edits %}
+            <tr>
+                <td>{{ profile.user.username }}</td>
+                <td>{{ profile.programme.name }}</td>
+                <td><a href="{% url 'admin_approve_edit_requests' profile.id %}" class="btn btn-success">Approve Edit</a></td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="3">No pending profile edit requests.</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

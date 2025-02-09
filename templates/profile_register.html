@@ -1,0 +1,86 @@
+{% extends "sbase.html" %}
+{% load static %}
+{% block content %}
+    <div class="container mt-5">
+        <h2>Register Your Profile</h2>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+           
+            <div class="form-group">
+                <label for="first_name">{{ form.first_name.label }}</label>
+                <input type="text" id="first_name" name="first_name" class="form-control" value="{{ form.first_name.value|default:'' }}" required>
+            </div>
+            <div class="form-group">
+                <label for="last_name">{{ form.last_name.label }}</label>
+                <input type="text" id="last_name" name="last_name" class="form-control" value="{{ form.last_name.value|default:'' }}" required>
+            </div>
+            <div class="form-group">
+                <label for="phone_number">{{ form.phone_number.label }}</label>
+                <input type="number" id="phone_number" name="phone_number" class="form-control" value="{{ form.phone_number.value|default:'' }}" required>
+            </div>
+            <div class="form-group">
+                <label for="address">{{ form.address.label }}</label>
+                <textarea id="address" name="address" class="form-control" rows="3">{{ form.address.value|default:'' }}</textarea>
+            </div>
+            <div class="form-group">
+                <label for="dob">{{ form.dob.label }}</label>
+                <input type="date" id="dob" name="dob" class="form-control" value="{{ form.dob.value|default:'' }}" required>
+            </div>
+            <div class="form-group">
+                <label for="profile_picture">{{ form.profile_picture.label }}</label>
+                <input type="file" id="profile_picture" name="profile_picture" class="form-control-file">
+            </div>
+            <div class="form-group">
+                <label for="programme">{{ form.programme.label }}</label>
+                <select id="programme" name="programme" class="form-control">
+                    {% for choice in form.programme.field.choices %}
+                        <option value="{{ choice.0 }}" {% if choice.0 == form.programme.value %}selected{% endif %}>{{ choice.1 }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="department">{{ form.department.label }}</label>
+                <select id="department" name="department" class="form-control">
+                    {% for choice in form.department.field.choices %}
+                        <option value="{{ choice.0 }}" {% if choice.0 == form.department.value %}selected{% endif %}>{{ choice.1 }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="board">{{ form.board.label }}</label>
+                <input type="text" id="board" name="board" class="form-control" value="{{ form.board.value|default:'' }}">
+            </div>
+            <div class="form-group">
+                <label for="subjects">{{ form.subjects.label }}</label>
+                <select id="subjects" name="subjects" class="form-control select2" multiple>
+                    {% for choice in form.subjects.field.choices %}
+                        <option value="{{ choice.0 }}" {% if choice.0 in form.subjects.value %}selected{% endif %}>{{ choice.1 }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Register</button>
+        </form>
+    </div>
+
+    <!-- Include jQuery and Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <!-- Include Select2 CSS and JS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Initialize Select2
+            $('.select2').select2({
+                placeholder: 'Select subjects', // Descriptive placeholder
+                maximumSelectionLength: 14, // Limit selection to 4
+                allowClear: true, // Allow clearing the selection
+                minimumResultsForSearch: 1 // Display search box only if there are more than 1 options
+            });
+        });
+    </script>
+          
+
+
+
+{% endblock %}

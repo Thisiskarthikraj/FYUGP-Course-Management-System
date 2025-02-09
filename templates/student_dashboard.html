@@ -1,0 +1,68 @@
+{% extends "sbase.html" %}
+{% block content %}
+{% if messages %}
+    <div>
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    </div>
+{% endif %}
+{% load static %}
+
+    <!-- Greeting Section -->
+    <section class="greeting-section my-4">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="greeting-card bg-danger p-3 rounded text-white">
+                    <h2>Hello {{ user.username }}  <span>👋</span></h2>
+                    <p>Mar Athanasios College For Advanced Studies Tiruvalla (MACFAST)</p>
+                    <p>{{student_profile.department.name}}</p>
+                </div>
+            </div>
+           
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            {% if student_profile and student_profile.profile_picture %}
+                            <img src="{{ student_profile.profile_picture.url }}" class="rounded-circle" alt="Profile Picture" width="50" height="50">
+                        {% else %}
+                            <img src="{% static 'images/admin.webp' %}" class="rounded-circle" alt="Default Profile Picture" width="50" height="50">
+                        {% endif %}                            <h5 class="mt-3">{{ user.username }} </h5>
+                            
+                            <p><p>{{student_profile.programme.name}}</p></p>
+                        </div>
+                    </div>
+                
+        </div>
+    </section>
+
+    <!-- Semester Info -->
+    <div class="col-md-8">
+        <div class="card" style="height: 250px; overflow-y: auto;">
+            <div class="card-header bg-danger text-white">
+                Course Information 
+            </div>
+            <div class="card-body">
+                <div class="container">
+                    Semester {{ current_semester }} (Current Semester)
+                    {% if courses %}
+                        <ul class="list-group mt-3">
+                            {% for course in courses %}
+                                <li class="list-group-item">
+                                    {{ course.course.name }} - {{ course.course.credit }} Credits
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p class="mt-3">There are no active courses available for this semester; please wait for college approval.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+    <!-- Instructions and Notifications -->
+    
+
+{% endblock %}

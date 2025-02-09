@@ -1,0 +1,98 @@
+body {
+    background-color: #f0f2f5;
+}
+
+/* Top Navbar */
+.navbar {
+    background-color: #ffffff;
+    color: #333333;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.navbar a {
+    color: #333333;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+.navbar a:hover {
+    color: #007bff;
+}
+
+/* Sidebar */
+.sidebar {
+    background-color: #2c3e50;
+    min-height: 100vh;
+    transition: all 0.3s;
+}
+.sidebar.collapsed {
+    margin-left: -230px;
+}
+.sidebar a {
+    color: #ecf0f1;
+    font-size: 18px;
+    padding: 12px;
+    display: block;
+    transition: background-color 0.3s, color 0.3s;
+}
+.sidebar a:hover {
+    background-color: #3498db;
+    color: #ffffff;
+    text-decoration: none;
+}
+
+/* Sidebar Toggle Button */
+.sidebar-toggle-btn {
+    background-color: #34495e;
+    color: #ffffff;
+    border: none;
+    font-size: 24px;
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+.sidebar-toggle-btn:hover {
+    background-color: #1abc9c;
+}
+
+/* Dashboard Header */
+.dashboard-header {
+    background-color: #e74c3c;
+    color: white;
+    padding: 15px;
+    font-size: 20px;
+    font-weight: 600;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Card Header */
+.card-header {
+    background-color: #e74c3c;
+    color: white;
+    padding: 10px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* Semester Button */
+.semester-btn {
+    background-color: #8e44ad;
+    color: white;
+    margin: 5px;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+.semester-btn:hover {
+    background-color: #9b59b6;
+    transform: scale(1.05);
+}
+/* ------------------------ */
+
+#btn1 {
+    background-color: #ff0d00;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}

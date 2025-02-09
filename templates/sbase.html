@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard</title>
+   
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    {% load static %}
+    <link href="{% static 'css/styles.css' %}" rel="stylesheet">
+   
+    <style>
+        .btn-sidebar-sub {
+            width: 100%;
+            background-color: #4b00fa;
+            color: white;
+            border: none;
+            padding: 8px;
+            text-align: left;
+            font-size: 14px;
+            margin-bottom: 5px;
+            transition: background-color 0.3s;
+        }
+        
+        /* Hover Effects */
+        .btn-sidebar:hover {
+            background-color: #5a2b7a;
+        }
+
+        @media (max-width: 768px) {
+            /* Hide the sidebar on small screens */
+            #sidebar {
+                display: none; /* Hide sidebar */
+            }
+
+            /* Show the navbar on small screens */
+            .top-navbar {
+                display: flex;
+                flex-direction: column;
+                position: relative;
+            }
+
+            .navbar-collapse {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- Top Navbar -->
+<nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+        <button class="sidebar-toggle-btn" id="sidebar-toggle-btn">&#9776;</button>
+        <a class="navbar-brand ms-3" href="#">MACFAST FYUGP</a>
+        <div class="ms-auto d-flex align-items-center">
+            {% if student_profile and student_profile.profile_picture %}
+                <img src="{{ student_profile.profile_picture.url }}" class="rounded-circle" alt="Profile Picture" width="50" height="50">
+            {% else %}
+                <img src="{% static 'images/admin.webp' %}" class="rounded-circle" alt="Default Profile Picture" width="50" height="50">
+            {% endif %}
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="">{{ user.username }}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link btn btn-danger text-white" href="#" 
+                       onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                        Logout
+                    </a>
+                </li>
+            </ul>
+            <form id="logout-form" action="{% url 'logout' %}" method="POST" style="display: none;">
+                {% csrf_token %}
+            </form>
+        </div>
+    </div>
+</nav>
+
+<!-- Responsive Top Menu for Small Screens -->
+<div class="navbar navbar-expand-lg top-navbar d-lg-none">
+    <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#topMenuCollapse" aria-controls="topMenuCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <span class="navbar-text me-auto">Menu</span>
+        <div class="collapse navbar-collapse" id="topMenuCollapse">
+            <ul class="navbar-nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'student_dashboard' %}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'profile' %}">Profile</a>
+                </li>
+                <li class="nav-item">
+                    <button class="btn btn-success text-white mt-2" data-bs-toggle="collapse" data-bs-target="#courseSubmenuMobile" aria-expanded="false">
+                        Course Section
+                    </button>
+                    <div id="courseSubmenuMobile" class="collapse">
+                        <ul class="list-unstyled ps-3">
+                            <li><a class="nav-link" href="{% url 'svc' %}">View Enrolled Courses</a></li>
+                            <li><a class="nav-link" href="{% url 'mdc_selection' %}">MDC Enrollment</a></li>
+                            <li><a class="nav-link" href="{% url 'course_enrollment' %}">Other Course Enrollment</a></li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar for larger screens -->
+        <div class="col-md-2 sidebar" id="sidebar">
+            <div class="p-3">
+                <h4 class="text-white">Dashboard</h4>
+                <hr class="text-white">
+                <a class="nav-link" href="{% url 'student_dashboard' %}">Home</a>
+                <a class="nav-link" href="{% url 'profile' %}">Profile</a>
+                <button class="btn btn-success text-white mt-2" data-bs-toggle="collapse" data-bs-target="#courseSubmenu" aria-expanded="false">
+                    Course Section
+                </button>
+                <div id="courseSubmenu" class="collapse">
+                    <ul class="list-unstyled ps-3">
+                        <a class="nav-link" href="{% url 'svc' %}">View Enrolled Courses</a>
+                        <a class="nav-link" href="{% url 'mdc_selection' %}">MDC Enrollment</a>
+                        <a class="nav-link" href="{% url 'course_enrollment' %}">Other Course Enrollment</a>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main Content Section -->
+        <main class="col ms-sm-auto px-md-4">
+            {% block content %}
+            <!-- This will be overridden by child templates -->
+            {% endblock %}
+        </main>
+    </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Sidebar toggle functionality
+    document.getElementById("sidebar-toggle-btn").addEventListener("click", function() {
+        document.getElementById("sidebar").classList.toggle("collapsed");
+    });
+</script>
+
+</body>
+</html>

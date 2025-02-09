@@ -1,0 +1,88 @@
+{% extends 'abase.html' %}
+{% block content %}
+<style>
+    /* Basic styles for the form and table */
+    .filter-form {
+        margin-bottom: 20px;
+    }
+
+    .filter-form select {
+        padding: 8px;
+        font-size: 16px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+    th, td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    th {
+        background-color: #f2f2f2;
+    }
+
+    tr:hover {
+        background-color: #f1f1f1;
+    }
+
+    .btn-primary {
+        padding: 10px 15px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
+</style>
+
+<!-- Filter Form -->
+<form method="GET" action="" class="filter-form">
+    <label for="programme">Select Programme:</label>
+    <select name="programme" id="programme">
+        <option value="">All</option>
+        {% for programme in programmes %}
+            <option value="{{ programme.id }}" {% if selected_programme_id == programme.id %}selected{% endif %}>
+                {{ programme.name }}
+            </option>
+        {% endfor %}
+    </select>
+    <button type="submit" class="btn-primary">Filter</button>
+</form>
+
+<!-- Student Promotion Form -->
+<form method="POST" action="">
+    {% csrf_token %}
+    <table>
+        <thead>
+            <tr>
+                <th>Select</th>
+                <th>Student Name</th>
+                <th>Current Semester</th>
+                <th>Total Credits Earned</th> <!-- New column for total credits -->
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in student_data %}  <!-- Change from students to student_data -->
+                <tr>
+                    <td><input type="checkbox" name="students" value="{{ item.student.id }}"></td>
+                    <td>{{ item.student.user.username }}</td>
+                    <td>{{ item.student.semester }}</td>
+                    <td>{{ item.total_credits }}</td> <!-- Display the total credits earned -->
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <button type="submit" class="btn-primary">Promote Selected Students</button>
+</form>
+
+{% endblock %}

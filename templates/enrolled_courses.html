@@ -1,0 +1,62 @@
+{% extends "abase.html" %}
+{% block content %}
+{% load static %}
+
+<link href="{% static 'css/avc.css' %}" rel="stylesheet">
+<div>
+    {% if messages %}
+    <div>
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    </div>
+{% endif %}
+    <form method="GET" action="">
+        <!-- Programme Filter -->
+        <div class="mb-3">
+            <label for="programme">Programme:</label>
+            <select name="programme" id="programme">
+                <option value="">All</option>
+                {% for prog in programmes %}
+                    <option value="{{ prog }}" {% if selected_programme == prog %}selected{% endif %}>
+                        {{ prog }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+    
+        <button type="submit" class="btn btn-primary">Filter</button>
+    </form>
+    <h4>Enrolled Courses:</h4>
+    {% if enrollments %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Student Name</th>
+                    <th>Courses</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% regroup enrollments by student.user.username as grouped_enrollments %}
+                {% for group in grouped_enrollments %}
+                    <tr>
+                        <td>{{ group.grouper }}</td>
+                        <td>
+                            <ul>
+                                {% for enrollment in group.list %}
+                                    <li>{{ enrollment.course.name }}</li>
+                                {% endfor %}
+                            </ul>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No enrollments found.</p>
+    {% endif %}
+</div>
+
+
+
+{% endblock%}

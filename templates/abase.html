@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin</title>
+   
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+    {% load static %}
+    <link href="{% static 'css/styles.css' %}" rel="stylesheet">
+    
+    <style>
+        /* Sidebar Base Styling */
+        .sidebar {
+            background-color: #4b00fa;
+            min-height: 100vh;
+            padding: 20px;
+            transition: all 0.3s;
+        }
+
+        .sidebar h4 {
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .sidebar hr {
+            border-color: white;
+        }
+
+        /* Sidebar Button Styles */
+        .btn-sidebar {
+            width: 100%;
+            background-color: #6c3483;
+            color: white;
+            border: none;
+            padding: 10px;
+            text-align: left;
+            margin-bottom: 10px;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        .btn-sidebar-sub {
+            width: 100%;
+            background-color: #4b00fa;
+            color: white;
+            border: none;
+            padding: 8px;
+            text-align: left;
+            font-size: 14px;
+            margin-bottom: 5px;
+            transition: background-color 0.3s;
+        }
+
+        /* Hover Effects */
+        .btn-sidebar:hover {
+            background-color: #5a2b7a;
+        }
+
+        .btn-sidebar-sub:hover {
+            background-color: #6c3483;
+        }
+
+        /* Remove Button Underline */
+        .btn-sidebar, .btn-sidebar-sub {
+            text-decoration: none;
+        }
+
+        /* Collapse Styles */
+        ul {
+            padding-left: 0;
+        }
+
+        ul li {
+            list-style: none;
+        }
+
+        @media (max-width: 768px) {
+            /* Hide the sidebar on small screens */
+            #sidebar {
+                display: none; /* Hide sidebar */
+            }
+
+            /* Show the navbar on small screens */
+            .top-navbar {
+                display: flex;
+                flex-direction: column;
+                position: relative;
+            }
+
+            .navbar-collapse {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- Top Navbar -->
+<nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+        <button class="sidebar-toggle-btn" id="sidebar-toggle-btn">&#9776;</button>
+        <a class="navbar-brand ms-3" href="#">MACFAST FYUGP</a>
+        <div class="ms-auto d-flex align-items-center">
+            <img src="{% static 'images/admin.webp' %}" class="rounded-circle" alt="Profile Picture" width="50" height="50">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="">{{ user.username }}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link btn btn-danger text-white" href="#" 
+                       onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                        Logout
+                    </a>
+                </li>
+            </ul>
+            <form id="logout-form" action="{% url 'logout' %}" method="POST" style="display: none;">
+                {% csrf_token %}
+            </form>
+        </div>
+    </div>
+</nav>
+
+<!-- Responsive Top Menu for Small Screens -->
+<div class="navbar navbar-expand-lg top-navbar d-lg-none">
+    <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#topMenuCollapse" aria-controls="topMenuCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <span class="navbar-text me-auto">Menu</span>
+        <div class="collapse navbar-collapse" id="topMenuCollapse">
+            <ul class="navbar-nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'admin_dashboard' %}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <button class="btn btn-sidebar" data-bs-toggle="collapse" data-bs-target="#profileSubmenuMobile" aria-expanded="false">
+                       Student Management
+                    </button>
+                    <div id="profileSubmenuMobile" class="collapse">
+                        <ul class="list-unstyled ps-3">
+                            <li><a href="{% url 'student_list' %}" class="nav-link">Student Profile</a></li>
+                            <li><a href="{% url 'approve_profiles' %}" class="nav-link">Profile Approvals</a></li>
+                            <li><a href="{% url 'promote_students' %}" class="nav-link">Promote students</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <button class="btn btn-sidebar" data-bs-toggle="collapse" data-bs-target="#courseSubmenuMobile" aria-expanded="false">
+                        Course Management
+                    </button>
+                    <div id="courseSubmenuMobile" class="collapse">
+                        <ul class="list-unstyled ps-3">
+                            <li><a href="{% url 'register_course' %}" class="nav-link">Register course</a></li>
+                            <li><a href="{% url 'viewcourses' %}" class="nav-link">View Courses</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <button class="btn btn-sidebar" data-bs-toggle="collapse" data-bs-target="#viewsSubmenuMobile" aria-expanded="false">
+                        Enrolled Courses
+                    </button>
+                    <div id="viewsSubmenuMobile" class="collapse">
+                        <ul class="list-unstyled ps-3">
+                            <li><a href="{% url 'enrolled_courses' %}" class="nav-link">Enrolled Courses</a></li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-md-2 sidebar" id="sidebar">
+            <div class="p-3">
+                <h4 class="text-white">Dashboard</h4>
+                <hr class="text-white">
+                <a class="nav-link" href="{% url 'admin_dashboard' %}">HOME</a>
+
+                <!-- Profile Section -->
+                <button class="btn btn-sidebar" data-bs-toggle="collapse" data-bs-target="#profileSubmenu" aria-expanded="false">
+                   Student Management
+                </button>
+                <div id="profileSubmenu" class="collapse">
+                    <ul class="list-unstyled ps-3">
+                        <li><a href="{% url 'student_list' %}" class="btn btn-sidebar-sub">Student Profile</a></li>
+                        <li><a href="{% url 'approve_profiles' %}" class="btn btn-sidebar-sub">Profile Approvals</a></li>
+                        <li><a href="{% url 'promote_students' %}" class="btn btn-sidebar-sub">Promote students</a></li>
+                    </ul>
+                </div>
+        
+                <!-- Course Section -->
+                <button class="btn btn-sidebar mt-2" data-bs-toggle="collapse" data-bs-target="#courseSubmenu" aria-expanded="false">
+                    Course Management
+                </button>
+                <div id="courseSubmenu" class="collapse">
+                    <ul class="list-unstyled ps-3">
+                        <li><a href="{% url 'register_course' %}" class="btn btn-sidebar-sub">Register course</a></li>
+                        <li><a href="{% url 'viewcourses' %}" class="btn btn-sidebar-sub">View Courses</a></li>
+                    </ul>
+                </div>
+                <button class="btn btn-sidebar mt-2" data-bs-toggle="collapse" data-bs-target="#report" aria-expanded="false">
+                    Reports
+                  </button>
+                  <div id="report" class="collapse">
+                      <ul class="list-unstyled ps-3">
+                          <li><a href="{% url 'department_wise_report' %}" class="btn btn-sidebar-sub">Report</a></li>
+                      </ul>
+                  </div>
+                <!-- Views Section -->
+                <button class="btn btn-sidebar mt-2" data-bs-toggle="collapse" data-bs-target="#viewsSubmenu" aria-expanded="false">
+                    Enrolled Courses
+                </button>
+                <div id="viewsSubmenu" class="collapse">
+                    <ul class="list-unstyled ps-3">
+                        <li><a href="{% url 'enrolled_courses' %}" class="btn btn-sidebar-sub">Enrolled Courses</a></li>
+                    </ul>
+                </div>
+                
+            </div>
+        </div>
+
+        <!-- Main Content Section -->
+        <main class="col ms-sm-auto px-md-4">
+            {% block content %}
+            {% endblock %}
+        </main>
+    </div>
+   
+</div>
+
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Sidebar toggle functionality
+    document.getElementById("sidebar-toggle-btn").addEventListener("click", function() {
+        document.getElementById("sidebar").classList.toggle("collapsed");
+    });
+</script>
+
+</body>
+</html>
