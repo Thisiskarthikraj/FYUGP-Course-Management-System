@@ -88,10 +88,6 @@ Contributions are welcome! If you'd like to improve the project, fork the reposi
 
 ---
 
-## 📜 License  
-This project is open-source and available under the MIT License.  
-
----
 
 **💡 FYUGP: Simplifying Course Registration for the Future!**
 ```
